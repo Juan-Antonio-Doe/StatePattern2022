@@ -1,0 +1,28 @@
+using Palmmedia.ReportGenerator.Core.Reporting.Builders;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.AI;
+
+public class AI : MonoBehaviour {
+	
+	// Referencias para usar la IA y la máquina de estados.
+    NavMeshAgent agent { get; set; }
+    Animator anim;
+    [field: SerializeField] public Transform player { get; private set; }
+    State currentState { get; set; }
+
+    // Start is called before the first frame update
+    void Start() {
+        agent = GetComponent<NavMeshAgent>();
+        anim = GetComponent<Animator>();
+        
+        currentState = new Idle(gameObject, agent, anim, player);
+        
+    }
+
+    // Update is called once per frame
+    void Update() {
+        currentState = currentState.Process();
+    }
+}
